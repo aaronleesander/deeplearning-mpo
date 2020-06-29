@@ -4,7 +4,8 @@
 """
 
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
+#from tensorflow.examples.tutorials.mnist import input_data
+
 import inference
 from hyperprameter import *
 
@@ -61,9 +62,9 @@ def mnist(inp):
         print("After %s trainning step(s),best accuracy=%g" %(step,best_acc))
 
 
-
 def main(argv=None):
-    inp=input_data.read_data_sets("./data/",validation_size=0,one_hot=True)
+    inp=tf.keras.datasets.mnist
+    #inp=input_data.read_data_sets("./data/",validation_size=0,one_hot=True)
     mnist(inp)
 
 if __name__=='__main__':
