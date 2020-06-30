@@ -5,8 +5,7 @@
 
 import tensorflow as tf
 tf.compat.v1.disable_eager_execution()
-#from tensorflow.examples.tutorials.mnist import input_data
-import tensorflow.datasets
+from tensorflow.examples.tutorials.mnist import input_data
 
 import inference_v2 as inference
 from hyperparameter_v2 import *
@@ -54,19 +53,28 @@ def mnist(inp):
         for i in range(TRAINING_STEPS):
             xs,ys = inp.train.next_batch(BATCH_SIZE)
             _,step,lr = sess.run([train_steps,global_step,learning_rate],feed_dict={x:xs,y_:ys})
-            if i%1000 == 0:
-                accuracy_score = sess.run(accuracy, feed_dict={x:inp.test.images,y_:inp.test.labels})
-                print('step={},lr={}'.format(step,lr))
-                if best_acc< accuracy_score:
-                    best_acc = accuracy_score
-                print('Accuracy at step %s: %s' % (i, accuracy_score))
+            #if i%1000 == 0:
+            accuracy_score = sess.run(accuracy, feed_dict={x:inp.test.images,y_:inp.test.labels})
+            #print('step={},lr={}'.format(step,lr))
+            if best_acc< accuracy_score:
+                best_acc = accuracy_score
+                #print('Accuracy at step %s: %s' % (i, best_acc)) # XXX
+            print('Accuracy at step %s: %s' % (i, accuracy_score))
         accuracy_score=sess.run(accuracy,feed_dict={x:inp.test.images,y_:inp.test.labels})
         print("After %s trainning step(s),best accuracy=%g" %(step,best_acc))
 
+######################
+        var = [v for v in tf.compat.v1.trainable_variables()]
+        print("Weight matrix: {0}".format(sess.run(var[0])))
+        for v in var:
+            print(v)
+        #print(inference)
+        # print(y[1])
+        # print(y[2])
+######################
 
 def main(argv=None):
-    inp = tensorflow_datasets.load('mnist')
-    #inp=input_data.read_data_sets("./data/",validation_size=0,one_hot=True)
+    inp=input_data.read_data_sets("./data/",validation_size=0,one_hot=True)
     mnist(inp)
 
 if __name__=='__main__':
