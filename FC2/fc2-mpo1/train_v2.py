@@ -65,9 +65,11 @@ def mnist(inp):
 
 ######################
         var = [v for v in tf.compat.v1.trainable_variables()]
-        print("Weight matrix: {0}".format(sess.run(var[0])))
-        for v in var:
-            print(v)
+        weight = sess.run(var[0])
+        print(weight.shape)
+        #print("Weight matrix: {0}".format(sess.run(var[0])))
+        #for v in var:
+        #    print(v)
         #print(inference)
         # print(y[1])
         # print(y[2])
